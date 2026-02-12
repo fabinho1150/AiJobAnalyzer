@@ -1,0 +1,81 @@
+﻿@model AiJobAnalyzer.ViewModels.JobAnalyzeViewModel
+
+@{
+    ViewData["Title"] = "AI Job Analyzer";
+}
+
+<div class="container mt-5">
+
+    <!-- HERO SECTION -->
+    <div class="text-center mb-5">
+        <h1 class="display-4 fw-bold">AI Job Analyzer</h1>
+        <p class="lead text-muted">
+            Analysiert Stellenanzeigen mit künstlicher Intelligenz
+            und zeigt dir, wie gut sie zu deinem Profil passen.
+        </p>
+    </div>
+
+    <!-- INPUT CARD -->
+    <div class="card shadow-lg border-0">
+        <div class="card-body p-4">
+
+            <form method="post" id="analyzeForm">
+
+                <label class="fw-bold mb-2">
+                    📄 Stellenbeschreibung einfügen
+                </label>
+
+                <textarea asp-for="JobText"
+                          class="form-control mb-3"
+                          rows="10"
+                          placeholder="Füge hier eine komplette Stellenanzeige ein..."></textarea>
+
+                <button type="submit"
+                        class="btn btn-primary btn-lg">
+                    🔍 Analyse starten
+                </button>
+
+                <!-- LOADING -->
+                <div id="loading"
+                     class="text-center mt-4"
+                     style="display:none;">
+
+                    <div class="spinner-border text-primary"></div>
+                    <p class="text-muted mt-2">
+                        AI analysiert die Anzeige...
+                    </p>
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+
+    <!-- RESULT -->
+    @if (!string.IsNullOrWhiteSpace(Model.Result))
+    {
+        <div class="card shadow mt-5 border-success">
+            <div class="card-body p-4">
+
+                <h3 class="text-success mb-3">
+                    📊 Analyse Ergebnis
+                </h3>
+
+                <pre style="white-space: pre-wrap;
+                                font-family: inherit;
+                                font-size: 16px;">
+    @Model.Result
+                    </pre>
+
+            </div>
+        </div>
+    }
+
+</div>
+
+<script>
+    document.getElementById("analyzeForm")
+        .addEventListener("submit", function () {
+            document.getElementById("loading").style.display = "block";
+        });
+</script>
